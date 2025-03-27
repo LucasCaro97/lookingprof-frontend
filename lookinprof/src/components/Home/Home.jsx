@@ -89,8 +89,8 @@ const Home = () => {
                   <img src={item.imageUrl ? "http://localhost:8080/user/images/" + item.imageUrl : "default-image.jpg"} className=' rounded-full w-1/2 mb-4 cover' />
                   <div className='pl-5'>
                   <h4 className='font-semibold text-xl'>{item.firstName}</h4>
-                  <p className='text-sm'>{item.profession.nameProfession}</p>
-                  <span className='text-xs'>{item.city.nameCity}, {item.province.nameProvince}</span>
+                  <p className='text-sm'>{item.profession?.nameProfession || "No especificado"}</p>
+                  <span className='text-xs'>{`${item.city?.nameCity || "No especificado"}, ${item.province?.nameProvince || "No especificado"}`}</span>
                   {/*
                   <div className='flex flex-row gap-1 items-center'>
                     {item.starts}{[...Array(Math.floor(item.starts))].map((_, i) => (

@@ -16,7 +16,7 @@ const Select = ({label, options, onClick, editMode, value, tamaño}) => {
               
                 {/* Verificar si el label corresponde a Profesion, Ciudad o Provincia */}
                 {label === "Profesion" ? (
-                  <option value={value.idProfession}>
+                  <option value={value.profession}>
                     {value.nameProfession}
                   </option>
                 ) : label === "Ciudad" ? (
@@ -38,7 +38,7 @@ const Select = ({label, options, onClick, editMode, value, tamaño}) => {
                   optionValue = option.idCity;
                   optionName = option.nameCity;
                 } else if (label === "Profesion") {
-                  optionValue = option.idProfession;
+                  optionValue = option.profession;
                   optionName = option.nameProfession;
                 } else {
                   // Otra lógica si es necesario
@@ -63,7 +63,7 @@ const Select = ({label, options, onClick, editMode, value, tamaño}) => {
               
               {/* Utilizamos una estructura condicional para renderizar la opción basada en la etiqueta */}
           {label === "Profesion" ? (
-            <option value={value.idProfession}>
+            <option value={value.profession}>
               {value.nameProfession}
             </option>
           ) : label === "Ciudad" ? (

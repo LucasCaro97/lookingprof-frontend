@@ -142,7 +142,7 @@ const ServiceProfile = () => {
                 setProfession(response.data.profession)
                 setResponseUrl(response.data.imageUrl)
                 setPhone(response.data.phone)
-                setProfessionEdited(response.data.profession.idProfession)
+                setProfessionEdited(response.data.profession.profession)
                 setProvinceEdited(response.data.province.idProvince)
                 setCityEdited(response.data.city.idCity)
                 
