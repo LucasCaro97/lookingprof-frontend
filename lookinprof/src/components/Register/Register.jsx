@@ -19,6 +19,8 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import axios from "axios";
+import { API_URL } from "../../config";
+import SelectProvince from "../../UI/SelectProvince";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -29,8 +31,8 @@ const Register = () => {
     lastName: "",
     password: "",
     role: "USER",
-    name_province:"Santa Fe",
-    city:"Santa Fe"
+    provinceId: "",
+    cityId: ""
   });
   const [formErrors, setFormErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
@@ -72,6 +74,11 @@ const Register = () => {
       isValid = false;
     }
 
+    if (!formData.provinceId || !formData.cityId) {
+      errors.location = "Seleccioná provincia y ciudad";
+      isValid = false;
+    }
+
     if (!formData.password) {
       errors.password = "La contraseña es requerida";
       isValid = false;
@@ -92,7 +99,15 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:8080/auth/register', formData);
+      const response = await axios.post(`${API_URL}/auth/register`, {
+        email: formData.email,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        password: formData.password,
+        role: formData.role,
+        provinceId: Number(formData.provinceId),
+        cityId: Number(formData.cityId),
+      });
       const token = response.data.token;
       localStorage.setItem('jwt', token);
       const payload = JSON.parse(atob(token.split('.')[1]));
@@ -215,6 +230,15 @@ const Register = () => {
               />
               <FormHelperText error>{formErrors.password || ''}</FormHelperText>
             </FormControl>
+
+            <SelectProvince
+              onProvinciaChange={(provinceId, cityId) =>
+                setFormData((prev) => ({ ...prev, provinceId, cityId }))
+              }
+            />
+            {formErrors.location && (
+              <FormHelperText error>{formErrors.location}</FormHelperText>
+            )}
 
             <Button variant="contained" className="shadow-2xl" type="submit">
               Registrarme

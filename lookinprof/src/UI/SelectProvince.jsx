@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_URL } from '../config';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 const SelectProvince = ({ onProvinciaChange }) => {
@@ -12,18 +13,13 @@ const SelectProvince = ({ onProvinciaChange }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const provincesRes = await axios.get("http://localhost:8080/provinces/get");
+                const provincesRes = await axios.get(`${API_URL}/provinces/get`);
                 setProvincias(provincesRes.data || []);
             } catch (error) {
                 console.error('Error al obtener las provincias:', error);
             }
 
-            try {
-                const citiesRes = await axios.get("http://localhost:8080/city/get");
-                setCities(citiesRes.data || []);
-            } catch (error) {
-                console.error('Error al obtener las ciudades:', error);
-            }
+            setCities([]);
         };
 
         fetchData();
@@ -37,14 +33,20 @@ const SelectProvince = ({ onProvinciaChange }) => {
         const selectedProvince = provincias.find(prov => prov.nameProvince === newSelectedProvName);
         if (selectedProvince) {
             setSelectedProvId(selectedProvince.idProvince);
+            if (onProvinciaChange) {
+                onProvinciaChange(selectedProvince.idProvince, '');
+            }
         } else {
             setSelectedProvId('');
+            if (onProvinciaChange) {
+                onProvinciaChange('', '');
+            }
         }
 
-        if (newSelectedProvName !== '') {
+        if (newSelectedProvName !== '' && selectedProvince) {
             try {
-                const res = await axios.get("http://localhost:8080/city/get");
-                const filteredCities = res.data.filter(city => city.province === newSelectedProvName);
+                const res = await axios.get(`${API_URL}/city/get`);
+                const filteredCities = res.data.filter(city => city.idProvince === selectedProvince.idProvince);
                 setCities(filteredCities || []);
             } catch (error) {
                 console.error('Error al obtener las ciudades:', error);

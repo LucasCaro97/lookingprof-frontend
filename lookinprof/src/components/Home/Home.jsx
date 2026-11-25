@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import Home2 from '../../assets/Home-2.svg';
 import { setCurrentUser } from '../../redux/slices/userSlice';
+import { API_URL } from '../../config';
 
 const Home = () => {
   const { currentUser } = useSelector(({user}) => user);
@@ -22,7 +23,7 @@ const Home = () => {
     let didCancel = false; 
     const fetchServicesData = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/user/all',{
+            const response = await axios.get(`${API_URL}/user/all`,{
               headers: {
                   'Access-Control-Allow-Origin': '*',
               }
@@ -86,7 +87,7 @@ const Home = () => {
             <div key={item.idUser} className='p-4 m-4 border-[#004466] w-[300px]  shadow-slate-400 shadow-xl border-2 rounded-lg h-auto'>
               <Cards className='flex flex-col items-center'>
               <div className='flex flex-col justify-center items-center'>
-                  <img src={item.imageUrl ? "http://localhost:8080/user/images/" + item.imageUrl : "default-image.jpg"} className=' rounded-full w-1/2 mb-4 cover' />
+                  <img src={item.imageUrl ? `${API_URL}/user/images/` + item.imageUrl : "default-image.jpg"} className=' rounded-full w-1/2 mb-4 cover' />
                   <div className='pl-5'>
                   <h4 className='font-semibold text-xl'>{item.firstName}</h4>
                   <p className='text-sm'>{item.profession?.nameProfession || "No especificado"}</p>

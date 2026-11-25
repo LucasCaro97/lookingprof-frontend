@@ -5,6 +5,7 @@ import manSettingsImage from '../../assets/manSettings.svg';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import axios from 'axios';
+import { API_URL } from '../../config';
 
 const Contact = () => {
   const [userName, setUserName] = useState('');
@@ -17,7 +18,7 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:8080/supportContact/send', {
+      await axios.post(`${API_URL}/supportContact/send`, {
         fromName: userName,
         fromEmail: userEmail,
         subject: userSubject,

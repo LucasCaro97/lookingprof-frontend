@@ -1,22 +1,25 @@
 import axios from 'axios'
+import { API_URL } from '../config'
 
-export const getUser =async()=>{
+export const api = axios.create({
+    baseURL: API_URL,
+})
+
+export const getUser = async () => {
     try {
-        const response = await axios.get('http://localhost:8080/user/'    )
+        const response = await api.get('/user/')
         return response
     } catch (error) {
         console.error(error)
-        
     }
 }
 
-
-export const LoginUser = async (username, password)=>{
+export const LoginUser = async (username, password) => {
     try {
-        const response = await axios.post('http://localhost:8080/auth/login',(
+        const response = await api.post('/auth/login', {
             username,
             password
-        ))
+        })
         return response
     } catch (error) {
         console.log(error)

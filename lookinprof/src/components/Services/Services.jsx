@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { IoMdArrowRoundUp, IoMdArrowRoundDown } from "react-icons/io";
 import axios from 'axios';
 import Cards from '../../UI/cards/Cards';
+import { API_URL } from '../../config';
 
 const Services = () => {
  
@@ -30,22 +31,22 @@ const Services = () => {
         const fetchData = async () => {
             try {
                 const [servicesResponse, professionsResponse, provincesResponse, citiesResponse] = await Promise.all([
-                    axios.get('http://localhost:8080/user/all',{
+                    axios.get(`${API_URL}/user/all`,{
                         headers: {
                             'Access-Control-Allow-Origin': '*',
                         }
                     }),
-                    axios.get('http://localhost:8080/profession/get',{
+                    axios.get(`${API_URL}/profession/get`,{
                         headers: {
                             'Access-Control-Allow-Origin': '*',
                         }
                     }),
-                    axios.get('http://localhost:8080/provinces/get',{
+                    axios.get(`${API_URL}/provinces/get`,{
                         headers: {
                             'Access-Control-Allow-Origin': '*',
                         }
                     }),
-                    axios.get('http://localhost:8080/city/get',{
+                    axios.get(`${API_URL}/city/get`,{
                         headers: {
                             'Access-Control-Allow-Origin': '*',
                         }
@@ -114,7 +115,7 @@ const Services = () => {
         const fetchData = async () => {
             if(filters.provincia){
             try {
-                const response = await axios.get(`http://localhost:8080/provinces/get/${filters.provincia}`);
+                const response = await axios.get(`${API_URL}/provinces/get/${filters.provincia}`);
                 setSelectProv(response.data.nameProvince)
             } catch (error) {
                 console.error('Error fetching province data:', error);
@@ -211,7 +212,7 @@ const Services = () => {
                             <div key={item.idUser} className='p-4 lg:m-10 m-4 border-[#004466]  shadow-slate-400 shadow-xl border-2 rounded-lg h-auto'>
                                 <Cards className='flex flex-col items-center'>
                                     <div className='flex flex-col justify-center items-center'>
-                                    <img src={item.imageUrl ? "http://localhost:8080/user/images/" + item.imageUrl : "default-image.jpg"} className=' rounded-full w-1/2 mb-4 cover' />
+                                    <img src={item.imageUrl ? `${API_URL}/user/images/` + item.imageUrl : "default-image.jpg"} className=' rounded-full w-1/2 mb-4 cover' />
                                         <div className=''>
                                             <h4 className='font-semibold text-xl'>{item.firstName} {item.lastName}</h4>
                                             <p className='text-sm'>{item.profession.nameProfession}</p>

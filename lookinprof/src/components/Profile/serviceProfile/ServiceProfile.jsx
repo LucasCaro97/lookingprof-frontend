@@ -6,6 +6,7 @@ import { Button, TextField } from '@mui/material'; // Importamos TextField de Ma
 import { setCurrentUser } from '../../../redux/slices/userSlice';
 import InputImage from './InputImage';
 import axios from 'axios';
+import { API_URL } from '../../../config';
 import Select from "./Select"
 import { South } from '@mui/icons-material';
 
@@ -103,28 +104,28 @@ const ServiceProfile = () => {
                 const [, payload] = token.split('.');
                 const decodedPayload = JSON.parse(atob(payload));
                 const userId = decodedPayload.id;
-                const response = await axios.get(`http://localhost:8080/user/${userId}`,{
+                const response = await axios.get(`${API_URL}/user/${userId}`,{
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     }
                 } )
 
-                const allProvinces = await axios.get(`http://localhost:8080/provinces/get`,{
+                const allProvinces = await axios.get(`${API_URL}/provinces/get`,{
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     }
                 })
                 
-                const allCity = await axios.get(`http://localhost:8080/city/get`,{
+                const allCity = await axios.get(`${API_URL}/city/get`,{
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     }
                 })
 
-                const allProfessions = await axios.get(`http://localhost:8080/profession/get`,{
+                const allProfessions = await axios.get(`${API_URL}/profession/get`,{
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
@@ -174,7 +175,7 @@ const ServiceProfile = () => {
         formData.append('image', file);
         
     // Aquí puedes enviar formData a tu servidor usando fetch o axios
-        const responseUpdate = axios.put(`http://localhost:8080/user/${userId}`, formData, {
+        const responseUpdate = axios.put(`${API_URL}/user/${userId}`, formData, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'multipart/form-data'
@@ -232,7 +233,7 @@ const ServiceProfile = () => {
 
                     <div className='border-[1px] p-4 rounded-xl shadow-lg w-5/12 flex justify-center align-middle' >
                         <div className='flex flex-col items-center justify-center w-full'>
-                        <img src={responseUrl ? "http://localhost:8080/user/images/" + responseUrl : "/default-image.jpg"} className='w-[200px] h-[200px] rounded-full p-4' />
+                        <img src={responseUrl ? `${API_URL}/user/images/` + responseUrl : "/default-image.jpg"} className='w-[200px] h-[200px] rounded-full p-4' />
                 
 
                             <InputImage name={username} title={profession} qualification={5} about={about}/>

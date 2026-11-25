@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 //import { useDispatch } from "react-redux";
 import axios from "axios";
+import { API_URL } from "../../../config";
 //import {   Typography,  Button,  Select,  MenuItem,  InputLabel,  FormControl,  TextField } from "@mui/material";
 import { useParams } from "react-router-dom";
 import profile from "../../../assets/profile.svg";
@@ -20,7 +21,7 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/user/${id}`, {
+        const response = await axios.get(`${API_URL}/user/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",

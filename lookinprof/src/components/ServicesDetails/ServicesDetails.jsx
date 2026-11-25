@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { FaChevronCircleLeft, FaChevronCircleRight } from "react-icons/fa";
 import axios from 'axios';
+import { API_URL } from '../../config';
 import InputImage from "../Profile/serviceProfile/InputImage"
 import UserInfo from "../Profile/serviceProfile/UserInfo"
 import StarRatingSelect from "../Profile/serviceProfile/StarRatingSelect"
@@ -37,7 +38,7 @@ const ServicesDetails = () => {
             Obtengo informacion del profesional a mostrar en la interfaz
         */}
         const fetchData = async () => {
-            const response = await axios.get(`http://localhost:8080/user/${id}`, {
+            const response = await axios.get(`${API_URL}/user/${id}`, {
                 headers: {
                     'Authorization': `Bearer ${jwt}`,
                     'Content-Type': 'application/json',
@@ -65,7 +66,7 @@ const ServicesDetails = () => {
             {/**
             Obtengo los comentarios del usuario
              */}
-             const comments = await axios.get(`http://localhost:8080/comment/getByUserDestination/${id}`, {
+             const comments = await axios.get(`${API_URL}/comment/getByUserDestination/${id}`, {
                 headers: {
                     'Authorization': `Bearer ${jwt}`,
                     'Content-Type': 'application/json',
@@ -83,7 +84,7 @@ const ServicesDetails = () => {
     */}
     useEffect(() => {
         const fetchSimilarServices = async () => {
-            const { data } = await axios.get('http://localhost:8080/user/all');
+            const { data } = await axios.get(`${API_URL}/user/all`);
             const filteredServices = data.filter(item =>
                 item.role === 'PROFESSIONAL' &&
                 item.profession.nameProfession === servicesData.profession.nameProfession &&
@@ -155,7 +156,7 @@ const ServicesDetails = () => {
             formData.append("userOrigin", idUserSession)
             formData.append("userDestination", id )
 
-          const response = await axios.post(`http://localhost:8080/comment`, formData, {
+          const response = await axios.post(`${API_URL}/comment`, formData, {
             headers: {
                 'Authorization': `Bearer ${jwt}`,
                 'Content-Type': 'application/json'
@@ -197,7 +198,7 @@ const ServicesDetails = () => {
                         </div>
                         <div className='border-[1px] p-4 rounded-xl shadow-lg w-full md:w-[400px]'>
                         <div className='flex flex-col items-center justify-center w-full'>
-                        <img src={responseUrl ? "http://localhost:8080/user/images/" + responseUrl : "/default-image.jpg"} className='w-[200px] h-[200px] rounded-full p-4' />
+                        <img src={responseUrl ? `${API_URL}/user/images/` + responseUrl : "/default-image.jpg"} className='w-[200px] h-[200px] rounded-full p-4' />
                             <InputImage name={username} title={profession} qualification={5} about={about}/>
                             <Button variant='contained' color='primary' onClick={() => handleContactCard(phone)}>
                                 Contactar
@@ -218,7 +219,7 @@ const ServicesDetails = () => {
                 
                 <div className={newComment}>
                     <div className='w-1/6 flex flex-col justify-center items-center border border-gray-300 rounded-l-2xl'>
-                        <img src={imgUserSession ? "http://localhost:8080/user/images/" + imgUserSession : "/default-image.jpg"} className='w-[60px] h-[60px] md:w-[100px] md:h-[100px]  rounded-full p-4' />
+                        <img src={imgUserSession ? `${API_URL}/user/images/` + imgUserSession : "/default-image.jpg"} className='w-[60px] h-[60px] md:w-[100px] md:h-[100px]  rounded-full p-4' />
                         <p className='w-[100px]mx-auto'>{nameUserSession}</p>
                     </div>
                     
@@ -281,7 +282,7 @@ const ServicesDetails = () => {
                         currentItems.map((item) => (
                             <div key={item.idUser} className='lg:p-4 lg:m-4 border-[#004466] w-[300px] shadow-slate-400 shadow-xl border-2 rounded-lg h-auto'>
                                 <div className='flex flex-col justify-center items-center'>
-                                <img src={item.imageUrl ? "http://localhost:8080/user/images/" + item.imageUrl : "default-image.jpg"} className=' rounded-full w-1/2 mb-4 cover' />
+                                <img src={item.imageUrl ? `${API_URL}/user/images/` + item.imageUrl : "default-image.jpg"} className=' rounded-full w-1/2 mb-4 cover' />
                                     <div>
                                         <h4 className='font-semibold text-xl'>{item.firstName} {item.lastName}</h4>
                                         <div className='text-sm'>{item.profession.nameProfession}</div>

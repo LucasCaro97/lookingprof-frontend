@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../../redux/slices/userSlice";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { API_URL } from "../../config";
 import { Typography } from "@mui/material";
 
 const Login = () => {
@@ -81,7 +82,7 @@ const Login = () => {
     }
 
     try {
-      const responseData = await axios.post('http://localhost:8080/auth/login', { email, password },
+      const responseData = await axios.post(`${API_URL}/auth/login`, { email, password },
         {
           headers: {
             'Content-Type': 'application/json',
